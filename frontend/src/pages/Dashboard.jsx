@@ -1,11 +1,28 @@
-import React from 'react'
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import SummaryBox from './../components/SummaryBox';
+import PieChart from './../components/PieChart';
+import TransactionTable from './../components/TransactionTable';
+import { fetchTransactions } from "../features/transaction/transactionSlice";
+import TransactionPage from "./TransactionPage";
 
-function Dashboard() {
+export default function Dashboard() {
+  const dispatch = useDispatch();
+  const { transactions, loading } = useSelector((state) => state.transaction);
+
+  // console.log(transactions, loading);
+
+  useEffect(() => {
+    dispatch(fetchTransactions()); // default fetch
+  }, [dispatch]);
+
   return (
-    <div>
-      Dashboard page
+    <div className="p-4 space-y-6">
+      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <SummaryBox transactions={transactions} />
+      <PieChart transactions={transactions} />
+      {/* <TransactionTable transactions={transactions} loading={loading} /> */}
+      <TransactionPage />
     </div>
-  )
+  );
 }
-
-export default Dashboard
