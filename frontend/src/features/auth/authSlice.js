@@ -31,9 +31,7 @@ export const loginUser = createAsyncThunk(
     async (credentials, thunkAPI) => {
         try {
             const res = await axios.post("/auth/login", credentials);
-
-            console.log(res.data);
-
+            
             const { accessToken, user } = res.data;
 
             // Save both in localStorage
@@ -85,7 +83,7 @@ const authSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                // state.user = action.payload.user;
+                state.user = action.payload;
                 // localStorage.setItem("user", JSON.stringify(action.payload.user));
             })
             .addCase(registerUser.rejected, (state, action) => {
