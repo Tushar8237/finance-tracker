@@ -28,8 +28,9 @@ export default function Register() {
         }
 
         try {
-            const res = await dispatch(registerUser(form)).unwrap(); // cleaner with unwrap
-
+            console.log("Dispatching registerUser with form:", form);
+            const res = await dispatch(registerUser(form)).unwrap(); // cleaner with unwrap 
+            console.log(res)
             toast.success("Registration successful!");
             setForm({ username: "", email: "", password: "", confirmPassword: "" });
             navigate("/login");

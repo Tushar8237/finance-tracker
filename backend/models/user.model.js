@@ -22,7 +22,6 @@ const userSchema = new mongoose.Schema({
     },
     confirmPassword: {
         type: String,
-        required: true,
         trim : true
     },
     createdAt: {
