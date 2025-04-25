@@ -15,7 +15,9 @@ export const registerUser = createAsyncThunk(
     "auth/register",
     async (userData, thunkAPI) => {
         try {
+            console.log("Sending POST /auth/register with:", userData);
             const res = await axios.post("/auth/register", userData);
+            console.log("Register success:", res.data);
             return res.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(
@@ -83,8 +85,11 @@ const authSlice = createSlice({
             })
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.isLoading = false;
-                state.user = action.payload;
+                state.user = action.payload.user;
                 // localStorage.setItem("user", JSON.stringify(action.payload.user));
+                localStorage.setItem("accessToken", action.payload.accessToken);
+                localStorage.setItem("user", JSON.stringify(action.payload.user));
+                setAuthHeader(action.payload.accessToken);
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.isLoading = false;
@@ -107,5 +112,5 @@ const authSlice = createSlice({
     },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError } = authSlice.actions; 
 export default authSlice.reducer;

@@ -16,14 +16,12 @@ export const registerUser = async (req, res) => {
 
         // Hash the password
         const hashedPassword = await bcrypt.hashSync(password, 10);
-        const hashedConfirmPassword = await bcrypt.hashSync(confirmPassword, 10);
 
         // Create a new user
         const newUser = new User({
             username,
             email,
             password: hashedPassword,
-            confirmPassword: hashedConfirmPassword,
         });
 
         // Save the user to the database
