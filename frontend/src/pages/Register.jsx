@@ -31,11 +31,17 @@ export default function Register() {
             const res = await dispatch(registerUser(form)).unwrap(); // cleaner with unwrap
 
             toast.success("Registration successful!");
+            setForm({ username: "", email: "", password: "", confirmPassword: "" });
             navigate("/login");
         } catch (err) {
             toast.error(err?.message || "Registration failed!");
             console.error("Registration error:", err);
         }
+    };
+
+    // Redirect to Login page if the user doesn't have an account
+    const redirectToLogin = () => {
+        navigate("/login");
     };
 
     return (
@@ -81,6 +87,18 @@ export default function Register() {
                     {loading ? "Registering..." : "Register"}
                 </button>
             </form>
+            {/* Add a message with a link to the Login page */}
+            <div className="mt-4 text-center">
+                <p>
+                    Already have an account?{" "}
+                    <button
+                        onClick={redirectToLogin}
+                        className="text-blue-600 hover:underline cursor-pointer"
+                    >
+                        Login here
+                    </button>
+                </p>
+            </div>
         </div>
     );
 }

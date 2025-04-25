@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { loginUser } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -13,11 +14,22 @@ export default function Login() {
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(form)).then((res) => {
-      if (!res.error) navigate("/");
-    });
+
+    try {
+      const res = await dispatch(loginUser(form)).unwrap(); // unwrap gives direct access to payload or throws error
+      toast.success("Login successful!");
+      navigate("/"); // Navigate to the home page after successful login
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error(err?.message || "Login failed!");
+    }
+  };
+
+  // Redirect to Register page if the user doesn't have an account
+  const redirectToRegister = () => {
+    navigate("/register");
   };
 
   return (
@@ -48,6 +60,19 @@ export default function Login() {
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+
+      {/* Add a message with a link to the Register page */}
+      <div className="mt-4 text-center">
+        <p>
+          Don't have an account?{" "}
+          <button
+            onClick={redirectToRegister}
+            className="text-blue-600 hover:underline cursor-pointer"
+          >
+            Register here
+          </button>
+        </p>
+      </div>
     </div>
   );
 }
