@@ -1,7 +1,8 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import { registerUser } from '../features/auth/authSlice';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+import { registerUser } from "../features/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -9,20 +10,32 @@ export default function Register() {
     const { loading, error } = useSelector((state) => state.auth);
 
     const [form, setForm] = useState({
-        username: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
     });
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleChange = (e) =>
+        setForm({ ...form, [e.target.name]: e.target.value });
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (form.password !== form.confirmPassword) return alert('Passwords do not match!');
-        dispatch(registerUser(form)).then((res) => {
-            if (!res.error) navigate('/login');
-        });
+
+        if (form.password !== form.confirmPassword) {
+            toast.error("Passwords do not match!");
+            return;
+        }
+
+        try {
+            const res = await dispatch(registerUser(form)).unwrap(); // cleaner with unwrap
+
+            toast.success("Registration successful!");
+            navigate("/login");
+        } catch (err) {
+            toast.error(err?.message || "Registration failed!");
+            console.error("Registration error:", err);
+        }
     };
 
     return (
@@ -30,12 +43,42 @@ export default function Register() {
             <h2 className="text-xl font-bold mb-4">Register</h2>
             {error && <p className="text-red-500">{error}</p>}
             <form onSubmit={handleSubmit} className="space-y-3">
-                <input name="username" onChange={handleChange} placeholder="Name" required className="w-full border p-2 rounded" />
-                <input name="email" onChange={handleChange} type="email" placeholder="Email" required className="w-full border p-2 rounded" />
-                <input name="password" onChange={handleChange} type="password" placeholder="Password" required className="w-full border p-2 rounded" />
-                <input name="confirmPassword" onChange={handleChange} type="password" placeholder="Confirm Password" required className="w-full border p-2 rounded" />
-                <button type="submit" className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded w-full">
-                    {loading ? 'Registering...' : 'Register'}
+                <input
+                    name="username"
+                    onChange={handleChange}
+                    placeholder="Name"
+                    required
+                    className="w-full border p-2 rounded"
+                />
+                <input
+                    name="email"
+                    onChange={handleChange}
+                    type="email"
+                    placeholder="Email"
+                    required
+                    className="w-full border p-2 rounded"
+                />
+                <input
+                    name="password"
+                    onChange={handleChange}
+                    type="password"
+                    placeholder="Password"
+                    required
+                    className="w-full border p-2 rounded"
+                />
+                <input
+                    name="confirmPassword"
+                    onChange={handleChange}
+                    type="password"
+                    placeholder="Confirm Password"
+                    required
+                    className="w-full border p-2 rounded"
+                />
+                <button
+                    type="submit"
+                    className="bg-blue-600 cursor-pointer text-white px-4 py-2 rounded w-full"
+                >
+                    {loading ? "Registering..." : "Register"}
                 </button>
             </form>
         </div>
