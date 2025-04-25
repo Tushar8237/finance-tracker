@@ -1,6 +1,6 @@
 # Full stack Expense tracker web app
 
-# This is a full-stack TODO application built with the MERN stack: **MongoDB**, **Express**, **React**, and **Node.js**. It includes user authentication, task CRUD operations, filtering, searching, and pagination.
+# This is a full-stack Expense tracker application built with the MERN stack: **MongoDB**, **Express**, **React**, and **Node.js**. It includes user authentication, task CRUD operations, filtering, searching, and pagination.
 
 ---
 
