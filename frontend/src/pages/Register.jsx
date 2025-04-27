@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-import { registerUser } from "../features/auth/authSlice";
+import { useEffect, useState } from "react";
+// import { registerUser } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { registerUser } from "../features/auth/authActions";
 
 export default function Register() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loading, error } = useSelector((state) => state.auth);
+    const { loading, error, success } = useSelector((state) => state.auth);
 
     const [form, setForm] = useState({
         username: "",
@@ -16,8 +17,17 @@ export default function Register() {
         confirmPassword: "",
     });
 
-    const handleChange = (e) =>
+    const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
+    };
+
+    useEffect(() => {
+        if (success) {
+            toast.success("Registration successful!");
+            setForm({ username: "", email: "", password: "", confirmPassword: "" });
+            navigate("/login");
+        }
+    }, [success, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,11 +39,11 @@ export default function Register() {
 
         try {
             console.log("Dispatching registerUser with form:", form);
-            const res = await dispatch(registerUser(form)).unwrap(); // cleaner with unwrap 
-            console.log(res)
-            toast.success("Registration successful!");
-            setForm({ username: "", email: "", password: "", confirmPassword: "" });
-            navigate("/login");
+            const res = await dispatch(registerUser(form)).unwrap(); // cleaner with unwrap
+            console.log(res);
+            // toast.success("Registration successful!");
+            // setForm({ username: "", email: "", password: "", confirmPassword: "" });
+            // navigate("/login");
         } catch (err) {
             toast.error(err?.message || "Registration failed!");
             console.error("Registration error:", err);

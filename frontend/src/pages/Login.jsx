@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { loginUser } from "../features/auth/authSlice";
+// import { loginUser } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { loginUser } from "../features/auth/authActions";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -11,8 +12,10 @@ export default function Login() {
 
   const [form, setForm] = useState({ email: "", password: "" });
 
-  const handleChange = (e) =>
+  const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+  }
+    
 
   const handleSubmit = async (e) => {
     e.preventDefault();
