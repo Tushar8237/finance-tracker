@@ -4,7 +4,7 @@ import {
     createTransaction,
     updateTransaction,
     fetchTransactions,
-} from "../features/transaction/transactionSlice";
+} from "../features/transaction/transactionActions";
 import { toast } from "react-toastify";
 
 export default function TransactionForm({ onClose, transactionToEdit, isEdit = false }) {
@@ -20,7 +20,6 @@ export default function TransactionForm({ onClose, transactionToEdit, isEdit = f
         notes: "",
     };
 
-    // const [formData, setFormData] = useState(initialValues._id ? initialValues : initialState);
     const [formData, setFormData] = useState(transactionToEdit?._id ? transactionToEdit : initialState);
     const [errors, setErrors] = useState({});
 

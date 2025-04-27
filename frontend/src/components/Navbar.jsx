@@ -35,7 +35,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-gray-800 text-white px-6 py-4 shadow-md">
-            <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <div className="max-w-7xl mx-auto flex justify-between items-center"> 
                 <Link to="/" className="text-xl font-bold">
                     💰 Finance Tracker
                 </Link>
