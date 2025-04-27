@@ -4,7 +4,7 @@ import TransactionTable from "./../components/TransactionTable";
 import {
   deleteTransaction,
   fetchTransactions,
-} from "../features/transaction/transactionSlice";
+} from "../features/transaction/transactionActions";
 import TransactionForm from "../components/TransactionForm";
 import { toast } from "react-toastify";
 

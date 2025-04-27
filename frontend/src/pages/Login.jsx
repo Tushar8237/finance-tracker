@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-// import { loginUser } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { loginUser } from "../features/auth/authActions";
 
@@ -14,8 +13,7 @@ export default function Login() {
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-  }
-    
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,11 +26,6 @@ export default function Login() {
       console.error("Login error:", err);
       toast.error(err?.message || "Login failed!");
     }
-  };
-
-  // Redirect to Register page if the user doesn't have an account
-  const redirectToRegister = () => {
-    navigate("/register");
   };
 
   return (
@@ -64,16 +57,15 @@ export default function Login() {
         </button>
       </form>
 
-      {/* Add a message with a link to the Register page */}
       <div className="mt-4 text-center">
         <p>
           Don't have an account?{" "}
-          <button
-            onClick={redirectToRegister}
+          <Link
+            to="/register"
             className="text-blue-600 hover:underline cursor-pointer"
           >
             Register here
-          </button>
+          </Link>
         </p>
       </div>
     </div>

@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit"
 import axios, { setAuthHeader } from "../../api/axiosInstance";
 
 // Load from localStorage
-const userFromStorage = JSON.parse(localStorage.getItem("user"));
 const tokenFromStorage = localStorage.getItem("accessToken");
 
 if (tokenFromStorage) {
@@ -14,9 +13,7 @@ export const registerUser = createAsyncThunk(
     "auth/register",
     async (userData, thunkAPI) => {
         try {
-            console.log("Sending POST /auth/register with:", userData, thunkAPI);
             const res = await axios.post("/auth/register", userData);
-            console.log("Register success:", res.data);
             return res.data;
         } catch (error) {
             return thunkAPI.rejectWithValue(

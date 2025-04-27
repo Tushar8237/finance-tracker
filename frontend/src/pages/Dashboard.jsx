@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import SummaryBox from './../components/SummaryBox';
 import PieChart from './../components/PieChart';
-import { fetchTransactions } from "../features/transaction/transactionSlice";
+import { fetchTransactions } from "../features/transaction/transactionActions";
 import TransactionPage from "./TransactionPage";
 
 export default function Dashboard() {

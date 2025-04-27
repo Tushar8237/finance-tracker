@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-// import { registerUser } from "../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate,  } from "react-router-dom";
 import { toast } from "react-toastify";
 import { registerUser } from "../features/auth/authActions";
+import { clearSuccess } from '../features/auth/authSlice'
 
 export default function Register() {
     const dispatch = useDispatch();
@@ -25,6 +25,7 @@ export default function Register() {
         if (success) {
             toast.success("Registration successful!");
             setForm({ username: "", email: "", password: "", confirmPassword: "" });
+            dispatch(clearSuccess());
             navigate("/login");
         }
     }, [success, navigate]);
@@ -38,23 +39,13 @@ export default function Register() {
         }
 
         try {
-            console.log("Dispatching registerUser with form:", form);
             const res = await dispatch(registerUser(form)).unwrap(); // cleaner with unwrap
-            console.log(res);
-            // toast.success("Registration successful!");
-            // setForm({ username: "", email: "", password: "", confirmPassword: "" });
-            // navigate("/login");
         } catch (err) {
             toast.error(err?.message || "Registration failed!");
             console.error("Registration error:", err);
         }
     };
-
-    // Redirect to Login page if the user doesn't have an account
-    const redirectToLogin = () => {
-        navigate("/login");
-    };
-
+    
     return (
         <div className="max-w-md mx-auto p-4 mt-10 border shadow rounded">
             <h2 className="text-xl font-bold mb-4">Register</h2>
@@ -98,16 +89,16 @@ export default function Register() {
                     {loading ? "Registering..." : "Register"}
                 </button>
             </form>
-            {/* Add a message with a link to the Login page */}
+            
             <div className="mt-4 text-center">
                 <p>
                     Already have an account?{" "}
-                    <button
-                        onClick={redirectToLogin}
+                    <Link
+                        to="/login"
                         className="text-blue-600 hover:underline cursor-pointer"
                     >
                         Login here
-                    </button>
+                    </Link>
                 </p>
             </div>
         </div>
