@@ -11,12 +11,20 @@ import errorHandler from './middlewares/error.middleware.js';
 
 const app = express();
 
+// Middlewares
+const allowedOrigins = [process.env.FRONTEND_URL_1, process.env.FRONTEND_URL_2];
 
-// Middleware
 app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true
-  }));
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // if you're using cookies / JWT tokens
+}));
+
 app.use(express.json()); // Parse JSON request bodies
 
 // Middleware
