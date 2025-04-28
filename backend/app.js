@@ -1,14 +1,14 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
 
 // Routes
 import authRoutes from './routes/auth.routes.js';
 import transactionRoues from './routes/transaction.routes.js';
 
-
 import errorHandler from './middlewares/error.middleware.js';
 
-
+dotenv.config();
 const app = express();
 
 // Middlewares

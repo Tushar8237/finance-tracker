@@ -27,8 +27,8 @@ export default function Register() {
             setForm({ username: "", email: "", password: "", confirmPassword: "" });
             dispatch(clearSuccess());
             navigate("/login");
-        }
-    }, [success, navigate]);
+        } 
+    }, [success, navigate, dispatch]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
